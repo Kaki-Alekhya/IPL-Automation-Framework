@@ -1,0 +1,9 @@
+<suite name="IPL Suite">
+    <test name="Chrome Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.FooterLinksTest"/>
+            <class name="tests.TeamDetailsTest"/>
+        </classes>
+    </test>
+</suite>

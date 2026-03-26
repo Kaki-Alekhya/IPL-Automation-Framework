@@ -1,0 +1,9 @@
+<suite name="Edge Suite">
+    <test name="Edge Tests">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="tests.FooterLinksTest"/>
+            <class name="tests.TeamDetailsTest"/>
+        </classes>
+    </test>
+</suite>

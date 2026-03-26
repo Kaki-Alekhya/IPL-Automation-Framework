@@ -17,7 +17,7 @@ public class DriverFactory {
             driver.set(new ChromeDriver());
         }
         else if(browser.equalsIgnoreCase("edge")){
-            WebDriverManager.edgedriver().setup();
+            System.setProperty("webdriver.edge.driver", "drivers/msedgedriver.exe");
             driver.set(new EdgeDriver());
         }
 

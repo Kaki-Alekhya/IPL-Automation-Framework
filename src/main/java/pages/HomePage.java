@@ -1,24 +1,68 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage {
 
     WebDriver driver;
+    WebDriverWait wait;
 
-    By teamsTab = By.linkText("Teams");
-    By newsTab = By.linkText("News");
+    // Stable locators
+    By teamsTab = By.xpath("//a[contains(@href,'teams')]");
+    By newsTab = By.xpath("//a[contains(@href,'news')]");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
+    // 🔥 Recommended (DIRECT NAVIGATION - BEST FOR ASSIGNMENT)
+    public void goToTeams(){
+        driver.get("https://www.iplt20.com/teams");
+    }
+
+    public void goToNews(){
+        driver.get("https://www.iplt20.com/news");
+    }
+
+    // 🔁 Optional UI click (LESS RELIABLE but kept for requirement)
     public void clickTeams(){
-        driver.findElement(teamsTab).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
+
+        WebElement teams = wait.until(
+                ExpectedConditions.presenceOfElementLocated(teamsTab)
+        );
+
+        // Scroll into view
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView(true);", teams
+        );
+
+        // JS click (avoids overlay issues)
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", teams
+        );
     }
 
     public void clickNews(){
-        driver.findElement(newsTab).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
+
+        WebElement news = wait.until(
+                ExpectedConditions.presenceOfElementLocated(newsTab)
+        );
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView(true);", news
+        );
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", news
+        );
     }
 }
