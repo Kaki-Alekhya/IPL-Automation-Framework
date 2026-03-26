@@ -7,43 +7,34 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class HomePage {
-
     WebDriver driver;
     WebDriverWait wait;
-
     // Stable locators
     By teamsTab = By.xpath("//a[contains(@href,'teams')]");
     By newsTab = By.xpath("//a[contains(@href,'news')]");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
-
-    // 🔥 Recommended (DIRECT NAVIGATION - BEST FOR ASSIGNMENT)
     public void goToTeams(){
         driver.get("https://www.iplt20.com/teams");
     }
-
     public void goToNews(){
         driver.get("https://www.iplt20.com/news");
     }
 
-    // 🔁 Optional UI click (LESS RELIABLE but kept for requirement)
+    // 🔁 OPTIONAL UI CLICK (for assignment requirement)
     public void clickTeams(){
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
-
         WebElement teams = wait.until(
-                ExpectedConditions.presenceOfElementLocated(teamsTab)
+                ExpectedConditions.elementToBeClickable(teamsTab)
         );
 
-        // Scroll into view
         ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView(true);", teams
+                "arguments[0].scrollIntoView({block:'center'});", teams
         );
 
-        // JS click (avoids overlay issues)
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].click();", teams
         );
@@ -51,14 +42,12 @@ public class HomePage {
 
     public void clickNews(){
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
-
         WebElement news = wait.until(
-                ExpectedConditions.presenceOfElementLocated(newsTab)
+                ExpectedConditions.elementToBeClickable(newsTab)
         );
 
         ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView(true);", news
+                "arguments[0].scrollIntoView({block:'center'});", news
         );
 
         ((JavascriptExecutor) driver).executeScript(
