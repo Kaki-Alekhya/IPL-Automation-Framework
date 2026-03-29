@@ -4,6 +4,8 @@
         <classes>
             <class name="tests.FooterLinksTest"/>
             <class name="tests.TeamDetailsTest"/>
+            <class name="tests.PointsTableTest"/>
+            <class name="tests.NewsSearchTest"/>
         </classes>
     </test>
 </suite>

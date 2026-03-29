@@ -1,29 +1,43 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
+import java.time.Duration;
+import java.util.List;
 
 public class StatsPage {
 
     WebDriver driver;
+    WebDriverWait wait;
 
-    By topTeam = By.cssSelector(".table-row:first-child .team-name");
-    By matches = By.cssSelector(".table-row:first-child .matches");
-    By points = By.cssSelector(".table-row:first-child .points");
+    By rows = By.xpath("//table//tbody/tr");
 
     public StatsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    public void goToPointsTable(){
+        driver.get("https://www.iplt20.com/points-table");
+    }
+
+    public List<WebElement> getRows(){
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(rows));
     }
 
     public String getTopTeam(){
-        return driver.findElement(topTeam).getText();
+        return getRows().get(0).findElement(By.xpath("./td[2]")).getText();
     }
 
-    public String getMatches(){
-        return driver.findElement(matches).getText();
+    public int getMatches(){
+        return Integer.parseInt(
+                getRows().get(0).findElement(By.xpath("./td[3]")).getText()
+        );
     }
 
-    public String getPoints(){
-        return driver.findElement(points).getText();
+    public int getPoints(){
+        return Integer.parseInt(
+                getRows().get(0).findElement(By.xpath("./td[last()]")).getText()
+        );
     }
 }
