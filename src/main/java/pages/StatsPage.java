@@ -2,42 +2,43 @@ package pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
+
 import java.time.Duration;
 import java.util.List;
-
-public class StatsPage {
-
+public class StatsPage
+{
     WebDriver driver;
     WebDriverWait wait;
-
-    By rows = By.xpath("//table//tbody/tr");
-
-    public StatsPage(WebDriver driver){
+    public StatsPage(WebDriver driver)
+    {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
-
-    public void goToPointsTable(){
-        driver.get("https://www.iplt20.com/points-table");
+    By firstRow = By.xpath("//table//tbody/tr[1]");
+    By allRows = By.xpath("//table//tbody/tr");
+    By firstRowCols = By.xpath("//table//tbody/tr[1]/td");
+    private List<WebElement> getFirstRowCells() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstRow));
+        return driver.findElements(firstRowCols);
     }
-
-    public List<WebElement> getRows(){
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(rows));
+    public String getRankOneTeam(){
+        List<WebElement> cols = getFirstRowCells();
+        return cols.get(1).getText(); // Team column
     }
+    public int getMatchesPlayed(){
+        List<WebElement> cols = getFirstRowCells();
 
-    public String getTopTeam(){
-        return getRows().get(0).findElement(By.xpath("./td[2]")).getText();
+        String matches = cols.get(2).getText();
+        return Integer.parseInt(matches.replaceAll("[^0-9]", ""));
     }
-
-    public int getMatches(){
-        return Integer.parseInt(
-                getRows().get(0).findElement(By.xpath("./td[3]")).getText()
-        );
-    }
-
     public int getPoints(){
-        return Integer.parseInt(
-                getRows().get(0).findElement(By.xpath("./td[last()]")).getText()
-        );
+        List<WebElement> cols = getFirstRowCells();
+
+        String text = cols.get(9).getText().trim();
+
+        if(text.isEmpty()){
+            return 0;
+        }
+        return Integer.parseInt(text.replaceAll("[^0-9]", ""));
     }
 }

@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -15,9 +16,11 @@ public class NewsSearchTest extends BaseTest {
     @Test
     public void verifyNewsSearch(){
 
-        NewsPage newsPage = new NewsPage(getDriver());
+        WebDriver driver = getDriver();
+        NewsPage newsPage = new NewsPage(driver);
 
         newsPage.goToNews();
+        acceptCookies(driver);
 
         newsPage.search("Auction 2026");
 

@@ -10,13 +10,14 @@ public class NewsPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    By searchIcon = By.xpath("//button[contains(@class,'search')]");
-    By searchBox = By.xpath("//input[@type='search']");
+    // ✅ FIXED locators
+    By searchIcon = By.xpath("//a[contains(@class,'search')]");
+    By searchBox = By.xpath("//input[contains(@placeholder,'Search')]");
     By results = By.xpath("//h3");
 
     public NewsPage(WebDriver driver){
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     public void goToNews(){
@@ -25,8 +26,13 @@ public class NewsPage {
 
     public void search(String text){
 
-        wait.until(ExpectedConditions.elementToBeClickable(searchIcon)).click();
+        // ✅ click search icon first
+        WebElement icon = wait.until(
+                ExpectedConditions.elementToBeClickable(searchIcon)
+        );
+        icon.click();
 
+        // ✅ wait for input
         WebElement input = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(searchBox)
         );
@@ -36,6 +42,8 @@ public class NewsPage {
     }
 
     public List<WebElement> getResults(){
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(results));
+        return wait.until(
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(results)
+        );
     }
 }
