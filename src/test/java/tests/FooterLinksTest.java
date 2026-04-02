@@ -20,23 +20,14 @@ public class FooterLinksTest extends BaseTest {
         WebDriver driver = getDriver();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        // ✅ Find footer first (from DOM)
         WebElement footer = wait.until(
                 ExpectedConditions.presenceOfElementLocated(By.tagName("footer"))
         );
-
-        // ✅ Scroll specifically to footer (this works better than page scroll)
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block:'center'});", footer
         );
-
         try { Thread.sleep(1000); } catch (Exception e) {}
-
-        // ✅ Get footer links
         List<WebElement> footerLinks = footer.findElements(By.tagName("a"));
-
-        // ✅ Assertion
         Assert.assertTrue(footerLinks.size() > 0, "Footer links not found");
     }
 }

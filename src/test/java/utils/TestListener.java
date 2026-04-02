@@ -15,14 +15,14 @@ public class TestListener implements ITestListener {
 
         try {
 
-            // ✅ Footer test
+            // Footer test
             if (testName.contains("Footer")) {
 
                 WebElement footer = driver.findElement(By.tagName("footer"));
                 ScreenshotUtils.captureElementScreenshot(driver, footer, testName);
             }
 
-            // ✅ Teams test
+            // Teams test
             else if (testName.contains("Team")) {
 
                 try {
@@ -35,7 +35,7 @@ public class TestListener implements ITestListener {
                 }
             }
 
-            // ✅ Default
+            //Default
             else {
                 ScreenshotUtils.capture(driver, testName);
             }

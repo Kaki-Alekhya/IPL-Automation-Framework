@@ -12,10 +12,7 @@ public class ScreenshotUtils {
 
         TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
-
-        // ✅ UNIQUE NAME FIX
         String path = "screenshots/" + testName + "_" + System.currentTimeMillis() + ".png";
-
         try {
             Files.createDirectories(Paths.get("screenshots"));
             Files.copy(src.toPath(), Paths.get(path));
@@ -24,14 +21,10 @@ public class ScreenshotUtils {
             e.printStackTrace();
         }
     }
-
     public static void captureElementScreenshot(WebDriver driver, WebElement element, String testName) {
 
         File src = element.getScreenshotAs(OutputType.FILE);
-
-        // ✅ UNIQUE NAME FIX
         String path = "screenshots/" + testName + "_" + System.currentTimeMillis() + ".png";
-
         try {
             Files.createDirectories(Paths.get("screenshots"));
             Files.copy(src.toPath(), Paths.get(path));

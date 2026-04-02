@@ -1,44 +1,54 @@
 package pages;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
-
 import java.time.Duration;
 import java.util.List;
-public class StatsPage
-{
+public class StatsPage {
     WebDriver driver;
     WebDriverWait wait;
-    public StatsPage(WebDriver driver)
-    {
+    public StatsPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
-    By firstRow = By.xpath("//table//tbody/tr[1]");
-    By allRows = By.xpath("//table//tbody/tr");
-    By firstRowCols = By.xpath("//table//tbody/tr[1]/td");
-    private List<WebElement> getFirstRowCells() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(firstRow));
-        return driver.findElements(firstRowCols);
-    }
-    public String getRankOneTeam(){
-        List<WebElement> cols = getFirstRowCells();
-        return cols.get(1).getText(); // Team column
-    }
-    public int getMatchesPlayed(){
-        List<WebElement> cols = getFirstRowCells();
-
-        String matches = cols.get(2).getText();
-        return Integer.parseInt(matches.replaceAll("[^0-9]", ""));
-    }
-    public int getPoints(){
-        List<WebElement> cols = getFirstRowCells();
-
-        String text = cols.get(9).getText().trim();
-
-        if(text.isEmpty()){
-            return 0;
+    By rows = By.xpath("//table//tbody/tr");
+    private WebElement getFirstRow() {
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(rows));
+        List<WebElement> allRows = driver.findElements(rows);
+        for (WebElement row : allRows) {
+            List<WebElement> cols = row.findElements(By.tagName("td"));
+            if (cols.size() >= 10 && row.isDisplayed()) {
+                return row;
+            }
         }
-        return Integer.parseInt(text.replaceAll("[^0-9]", ""));
+        throw new RuntimeException("❌ No valid row found");
+    }
+    public String getRankOneTeam() {
+        WebElement row = getFirstRow();
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+        return cols.get(2).getText().trim(); // ✅ TEAM column
+    }
+    public int getMatchesPlayed() {
+
+        WebElement row = getFirstRow();
+
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+
+        return parse(cols.get(3).getText()); // P column
+    }
+    public int getPoints() {
+
+        WebElement row = getFirstRow();
+
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+
+        return parse(cols.get(10).getText()); // PTS column
+    }
+    private int parse(String text) {
+        if (text == null || text.isEmpty()) return 0;
+
+        String num = text.replaceAll("[^0-9]", "");
+        if (num.isEmpty()) return 0;
+
+        return Integer.parseInt(num);
     }
 }
