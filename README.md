@@ -150,7 +150,7 @@ This framework satisfies all evaluation criteria:
 
 ---
 
-## 👤 Author
+## 👤 Authors
 
 **Roshitha Kurma**
 Automation Test Engineer
