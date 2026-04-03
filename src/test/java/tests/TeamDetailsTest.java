@@ -21,12 +21,16 @@ public class TeamDetailsTest extends BaseTest {
     public void verifyTeamDetails() {
 
         WebDriver driver = getDriver();
-        driver.get("https://www.iplt20.com/teams");
+        driver.navigate().to("https://www.iplt20.com/teams");
         acceptCookies(driver);
+
         TeamsPage teamsPage = new TeamsPage(driver);
         Map<String, String> expectedData = TeamData.getTeamWinningYears();
+
         JavascriptExecutor js = (JavascriptExecutor) driver;
+
         int totalTeams = teamsPage.getAllTeams().size();
+
         for (int i = 0; i < totalTeams; i++) {
             List<WebElement> teams = teamsPage.getAllTeams();
             WebElement team = teams.get(i);
@@ -42,14 +46,23 @@ public class TeamDetailsTest extends BaseTest {
             } catch (Exception e) {
                 teamName = team.getText().trim();
             }
+
             teamsPage.clickTeam(team);
+
             String actualYears = teamsPage.getWinningYears();
+
             if (expectedData.containsKey(teamName)) {
+
                 String expectedYears = expectedData.get(teamName);
+
                 if (!expectedYears.isEmpty()) {
+
                     System.out.println("✔ " + teamName + " -> " + actualYears);
+
                     String normalized = (actualYears == null ? "" : actualYears).replace(",", "");
+
                     for (String year : expectedYears.split(" ")) {
+
                         Assert.assertTrue(
                                 normalized.contains(year),
                                 "Year " + year + " not found for " + teamName
@@ -57,12 +70,14 @@ public class TeamDetailsTest extends BaseTest {
                     }
                 }
             }
+
             driver.navigate().back();
             new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                             By.xpath("//a[contains(@href,'/teams/')]")
                     ));
         }
-        System.out.println("✅ All teams verified successfully");
+
+        System.out.println("All teams verified successfully");
     }
 }
