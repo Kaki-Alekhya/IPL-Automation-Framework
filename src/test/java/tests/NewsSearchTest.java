@@ -20,7 +20,7 @@ public class NewsSearchTest extends BaseTest {
         boolean found = false;
         for(WebElement r : results){
             String text = r.getText().toLowerCase();
-            System.out.println("✅ Result: " + text);
+            System.out.println("Result: " + text);
             if(text.contains("auction")){
                 found = true;
                 break;

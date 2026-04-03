@@ -1,43 +1,34 @@
 package pages;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.List;
+
 public class HomePage {
     WebDriver driver;
     WebDriverWait wait;
-    By teamsTab = By.xpath("//a[contains(@href,'teams')]");
-    By newsTab = By.xpath("//a[contains(@href,'news')]");
-    public HomePage(WebDriver driver){
+
+    By footerContainer = By.tagName("footer");
+
+    public HomePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
-    public void goToTeams(){
-        driver.get("https://www.iplt20.com/teams");
+    public void scrollToFooter() {
+        WebElement footer = wait.until(ExpectedConditions.presenceOfElementLocated(footerContainer));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", footer);
+        try {
+            System.out.println("Scrolling to footer... waiting 5 seconds for links to render.");
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
-    public void goToNews(){
-        driver.get("https://www.iplt20.com/news");
-    }
-    public void clickTeams(){
-        WebElement teams = wait.until(
-                ExpectedConditions.elementToBeClickable(teamsTab)
-        );
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block:'center'});", teams
-        );
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].click();", teams
-        );
-    }
-    public void clickNews(){
-        WebElement news = wait.until(
-                ExpectedConditions.elementToBeClickable(newsTab)
-        );
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block:'center'});", news
-        );
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].click();", news
-        );
+    public List<WebElement> getLinksBySection(String sectionHeader) {
+        // Updated XPath: Finds the h2 header, moves to the parent div, then finds all anchor links
+        String xpath = "//h2[text()='" + sectionHeader + "']/parent::div//a";
+        return driver.findElements(By.xpath(xpath));
     }
 }

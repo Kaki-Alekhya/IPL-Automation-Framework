@@ -2,67 +2,57 @@ package tests;
 
 import base.BaseTest;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.TeamsPage;
 import utils.TeamData;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-
 @Listeners(utils.TestListener.class)
 public class TeamDetailsTest extends BaseTest {
 
     @Test
     public void verifyTeamDetails() {
-
         WebDriver driver = getDriver();
         driver.get("https://www.iplt20.com/teams");
         acceptCookies(driver);
         TeamsPage teamsPage = new TeamsPage(driver);
         Map<String, String> expectedData = TeamData.getTeamWinningYears();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        int totalTeams = teamsPage.getAllTeams().size();
-        for (int i = 0; i < totalTeams; i++) {
-            List<WebElement> teams = teamsPage.getAllTeams();
-            WebElement team = teams.get(i);
-            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", team);
-            teamsPage.waitForLogoLoad(team);
-            Assert.assertTrue(
-                    teamsPage.isLogoDisplayed(team),
-                    "Logo not displayed"
-            );
-            String teamName;
-            try {
-                teamName = team.findElement(By.xpath(".//img")).getAttribute("alt");
-            } catch (Exception e) {
-                teamName = team.getText().trim();
-            }
-            teamsPage.clickTeam(team);
-            String actualYears = teamsPage.getWinningYears();
-            if (expectedData.containsKey(teamName)) {
-                String expectedYears = expectedData.get(teamName);
-                if (!expectedYears.isEmpty()) {
-                    System.out.println("✔ " + teamName + " -> " + actualYears);
-                    String normalized = (actualYears == null ? "" : actualYears).replace(",", "");
-                    for (String year : expectedYears.split(" ")) {
-                        Assert.assertTrue(
-                                normalized.contains(year),
-                                "Year " + year + " not found for " + teamName
-                        );
-                    }
+        List<WebElement> teams = teamsPage.getAllTeams();
+
+        System.out.println("Total Teams Found: " + teams.size());
+
+        for (WebElement team : teams) {
+
+            String teamName = team.getAttribute("data-team_name");
+            if (teamName == null || teamName.isEmpty()) continue;
+            System.out.println("Checking Team: " + teamName);
+
+            Assert.assertTrue(teamsPage.isLogoDisplayed(team), "Logo NOT displayed for: " + teamName);
+
+            String actualYearsRaw = teamsPage.getWinningYearsOnHover(team);
+
+            String expectedYearsStr = expectedData.get(teamName);
+
+            if (expectedYearsStr != null && !expectedYearsStr.isEmpty()) {
+                String actualCleaned = actualYearsRaw.replace("|", " ").replaceAll("\\s+", " ").trim();
+                String[] expectedYearsArray = expectedYearsStr.split(" ");
+                for (String year : expectedYearsArray) {
+                    Assert.assertTrue(actualCleaned.contains(year),
+                            "\n[FAILED] Mismatch for " + teamName +
+                                    "\nExpected Year: " + year +
+                                    "\nActual years found on site: " + actualYearsRaw);
+                }
+                System.out.println("✔ PASS: " + teamName + " [" + actualCleaned + "]");
+            } else {
+                if (!actualYearsRaw.isEmpty()) {
+                    System.out.println("⚠ WARNING: " + teamName + " has trophies on site but is marked empty in TeamData.");
+                } else {
+                    System.out.println("ℹ Info: " + teamName + " has no trophies (Matches TeamData).");
                 }
             }
-            driver.navigate().back();
-            new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                            By.xpath("//a[contains(@href,'/teams/')]")
-                    ));
         }
-        System.out.println("✅ All teams verified successfully");
+        System.out.println("--- All Team Details Verified Successfully ---");
     }
 }

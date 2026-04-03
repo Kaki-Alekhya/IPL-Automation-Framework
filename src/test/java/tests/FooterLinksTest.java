@@ -1,33 +1,31 @@
 package tests;
 
 import base.BaseTest;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Test;
-import utils.DriverFactory;
 import org.testng.annotations.Listeners;
-
-import java.time.Duration;
+import org.testng.annotations.Test;
+import pages.HomePage;
 import java.util.List;
 @Listeners(utils.TestListener.class)
 public class FooterLinksTest extends BaseTest {
 
+
     @Test
-    public void verifyFooterLinks(){
-
+    public void verifyFooterLinksBySection() {
         WebDriver driver = getDriver();
+        driver.get("https://www.iplt20.com/");
+        HomePage homePage = new HomePage(driver);
+        homePage.scrollToFooter();
+        String[] sections = {"TEAM", "ABOUT", "GUIDELINES", "CONTACT"};
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement footer = wait.until(
-                ExpectedConditions.presenceOfElementLocated(By.tagName("footer"))
-        );
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block:'center'});", footer
-        );
-        try { Thread.sleep(1000); } catch (Exception e) {}
-        List<WebElement> footerLinks = footer.findElements(By.tagName("a"));
-        Assert.assertTrue(footerLinks.size() > 0, "Footer links not found");
+        for (String section : sections) {
+            List<WebElement> links = homePage.getLinksBySection(section);
+            System.out.println("Checking Section: " + section + " | Links found: " + links.size());
+            Assert.assertTrue(links.size() > 0, "FAILED: No links found under section: " + section);
+
+        }
+        System.out.println("✅ All footer sections verified successfully.");
     }
 }
