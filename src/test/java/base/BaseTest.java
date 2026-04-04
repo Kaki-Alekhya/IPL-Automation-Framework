@@ -21,7 +21,7 @@ public class BaseTest {
 
     @Parameters("browser")
     @BeforeMethod
-    public void setUp(String browser){
+    public void setUp(String browser) {
 
         DriverFactory.initDriver(browser);
         WebDriver driver = DriverFactory.getDriver();
@@ -32,11 +32,11 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown() {
         DriverFactory.quitDriver();
     }
 
-    public void acceptCookies(WebDriver driver){
+    public void acceptCookies(WebDriver driver) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
@@ -49,8 +49,8 @@ public class BaseTest {
             acceptBtn.click();
             System.out.println("✅ Cookies accepted");
 
-        } catch (Exception e){
-            System.out.println("⚠️ No cookies popup");
+        } catch (Exception e) {
+            System.out.println("ℹ️ Cookies popup not present");
         }
     }
 }

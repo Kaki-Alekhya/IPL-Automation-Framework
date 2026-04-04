@@ -1,36 +1,35 @@
 package utils;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.*;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ScreenshotUtils {
 
-    public static void capture(WebDriver driver, String name){
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+    public static void capture(WebDriver driver, String testName) {
 
-        try{
-            FileUtils.copyFile(src, new File("screenshots/" + name + ".png"));
-        }catch(Exception e){
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File src = ts.getScreenshotAs(OutputType.FILE);
+        String path = "screenshots/" + testName + "_" + System.currentTimeMillis() + ".png";
+        try {
+            Files.createDirectories(Paths.get("screenshots"));
+            Files.copy(src.toPath(), Paths.get(path));
+            System.out.println("📸 Screenshot saved: " + path);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     public static void captureElementScreenshot(WebDriver driver, WebElement element, String testName) {
-        try {
-            File src = element.getScreenshotAs(OutputType.FILE);
 
-            String path = "screenshots/" + testName + ".png";
+        File src = element.getScreenshotAs(OutputType.FILE);
+        String path = "screenshots/" + testName + "_" + System.currentTimeMillis() + ".png";
+        try {
             Files.createDirectories(Paths.get("screenshots"));
             Files.copy(src.toPath(), Paths.get(path));
-
-        } catch (Exception e) {
+            System.out.println("📸 Element Screenshot saved: " + path);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

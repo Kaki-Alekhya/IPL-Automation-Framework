@@ -8,7 +8,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static void initDriver(String browser){
 

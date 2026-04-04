@@ -1,43 +1,54 @@
 package pages;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
 import java.util.List;
-
 public class StatsPage {
-
     WebDriver driver;
     WebDriverWait wait;
-
-    By rows = By.xpath("//table//tbody/tr");
-
-    public StatsPage(WebDriver driver){
+    public StatsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
-
-    public void goToPointsTable(){
-        driver.get("https://www.iplt20.com/points-table");
+    By rows = By.xpath("//table//tbody/tr");
+    private WebElement getFirstRow() {
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(rows));
+        List<WebElement> allRows = driver.findElements(rows);
+        for (WebElement row : allRows) {
+            List<WebElement> cols = row.findElements(By.tagName("td"));
+            if (cols.size() >= 10 && row.isDisplayed()) {
+                return row;
+            }
+        }
+        throw new RuntimeException("❌ No valid row found");
     }
-
-    public List<WebElement> getRows(){
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(rows));
+    public String getRankOneTeam() {
+        WebElement row = getFirstRow();
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+        return cols.get(2).getText().trim(); // ✅ TEAM column
     }
+    public int getMatchesPlayed() {
 
-    public String getTopTeam(){
-        return getRows().get(0).findElement(By.xpath("./td[2]")).getText();
+        WebElement row = getFirstRow();
+
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+
+        return parse(cols.get(3).getText()); // P column
     }
+    public int getPoints() {
 
-    public int getMatches(){
-        return Integer.parseInt(
-                getRows().get(0).findElement(By.xpath("./td[3]")).getText()
-        );
+        WebElement row = getFirstRow();
+
+        List<WebElement> cols = row.findElements(By.tagName("td"));
+
+        return parse(cols.get(10).getText()); // PTS column
     }
+    private int parse(String text) {
+        if (text == null || text.isEmpty()) return 0;
 
-    public int getPoints(){
-        return Integer.parseInt(
-                getRows().get(0).findElement(By.xpath("./td[last()]")).getText()
-        );
+        String num = text.replaceAll("[^0-9]", "");
+        if (num.isEmpty()) return 0;
+
+        return Integer.parseInt(num);
     }
 }

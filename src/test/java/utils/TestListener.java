@@ -1,8 +1,6 @@
 package utils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import base.BaseTest;
@@ -16,15 +14,29 @@ public class TestListener implements ITestListener {
         String testName = result.getName();
 
         try {
-            // ✅ If it's Footer test → capture footer only
-            if(testName.contains("Footer")) {
+
+            // Footer test
+            if (testName.contains("Footer")) {
 
                 WebElement footer = driver.findElement(By.tagName("footer"));
-
                 ScreenshotUtils.captureElementScreenshot(driver, footer, testName);
+            }
 
-            } else {
-                // other tests → full screenshot
+            // Teams test
+            else if (testName.contains("Team")) {
+
+                try {
+                    WebElement team = driver.findElement(
+                            By.xpath("//a[contains(@href,'/teams/')]")
+                    );
+                    ScreenshotUtils.captureElementScreenshot(driver, team, testName);
+                } catch (Exception e) {
+                    ScreenshotUtils.capture(driver, testName);
+                }
+            }
+
+            //Default
+            else {
                 ScreenshotUtils.capture(driver, testName);
             }
 

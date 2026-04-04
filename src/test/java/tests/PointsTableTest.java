@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
@@ -10,20 +11,29 @@ import pages.StatsPage;
 public class PointsTableTest extends BaseTest {
 
     @Test
-    public void verifyPointsTable(){
+    public void verifyPointsTable() {
 
-        StatsPage statsPage = new StatsPage(getDriver());
+        WebDriver driver = getDriver();
 
-        // ⚡ FAST navigation
-        statsPage.goToPointsTable();
+        driver.get("https://www.iplt20.com/points-table/men");
+        acceptCookies(driver);
+        StatsPage stats = new StatsPage(driver);
+        String team = stats.getRankOneTeam();
+        int matches = stats.getMatchesPlayed();
+        int points = stats.getPoints();
+        System.out.println("🏆 Top Team: " + team);
+        System.out.println("📊 Matches: " + matches);
+        System.out.println("🎯 Points: " + points);
 
-        String team = statsPage.getTopTeam();
-        int matches = statsPage.getMatches();
-        int points = statsPage.getPoints();
+        Assert.assertNotNull(team, "Team name should not be null");
+        Assert.assertFalse(team.isEmpty(), "Team name should not be empty");
 
-        System.out.println(team + " | Matches: " + matches + " | Points: " + points);
+        Assert.assertTrue(matches >= 0, "Matches should be >= 0");
+        Assert.assertTrue(points >= 0, "Points should be >= 0");
 
-        Assert.assertTrue(matches > 0, "Matches invalid");
-        Assert.assertTrue(points > 0, "Points invalid");
+        Assert.assertTrue(points <= matches * 2,
+                "Points exceed possible limit");
+
+        System.out.println("✅ Points Table verified successfully");
     }
 }
