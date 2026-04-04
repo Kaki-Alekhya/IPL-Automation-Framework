@@ -1,5 +1,7 @@
 # 🏏 IPL Automation Framework
 
+---
+
 ## 📌 Project Overview
 
 The **IPL Automation Framework** is a UI Automation Testing framework developed to validate critical functionalities of the IPL official website:
@@ -50,6 +52,79 @@ IPL-Automation-Framework/
 │── reports/
 │── screenshots/
 ```
+
+---
+
+## 📊 Framework Architecture
+
+```
+                +---------------------------+
+                |   Test Layer (TestNG)     |
+                | - Test Classes            |
+                | - TestNG XML              |
+                +------------+--------------+
+                             |
+                             v
+                +---------------------------+
+                |   Page Object Model (POM) |
+                | - HomePage                |
+                | - TeamsPage               |
+                | - StatsPage               |
+                | - NewsPage                |
+                +------------+--------------+
+                             |
+                             v
+                +---------------------------+
+                |   Base Class              |
+                | - Driver Initialization   |
+                | - Browser Setup           |
+                +------------+--------------+
+                             |
+        +--------------------+--------------------+
+        |                                         |
+        v                                         v
++------------------------+          +-----------------------------+
+|   Utility Classes      |          |   Test Data / Config        |
+| - Wait Utilities       |          | - Test Data                 |
+| - Common Actions       |          | - Config Properties         |
+| - Screenshot Capture   |          +-----------------------------+
++-----------+------------+
+            |
+            v
+        +-----------------------------+
+        |   Selenium WebDriver        |
+        +-------------+---------------+
+                      |
+                      v
+        +-----------------------------+
+        |   Browser (Chrome / Edge)   |
+        +-------------+---------------+
+                      |
+                      v
+        +-----------------------------+
+        |   Reporting Layer           |
+        | - TestNG Reports            |
+        | - Screenshots on Failure    |
+        +-------------+---------------+
+                      |
+          +-----------+-----------+
+          |                       |
+          v                       v
+   Reports Folder         Screenshots Folder
+```
+
+---
+
+## 🔄 Execution Flow
+
+1. Test execution starts from **TestNG test classes** using `testng.xml`
+2. Test classes interact with **Page Object Model (POM) classes**
+3. Page classes contain locators and reusable actions
+4. Base class initializes WebDriver and manages browser setup
+5. Utility classes provide reusable methods like waits, actions, and screenshots
+6. Selenium WebDriver interacts with browser (Chrome/Edge)
+7. Test data and configurations are used during execution
+8. Reports and screenshots are generated after execution
 
 ---
 
@@ -116,16 +191,15 @@ mvn test -DsuiteXmlFile=testng-edge.xml
 
 * Execution reports generated after test run
 * Screenshots captured automatically for failed tests
-* Stored in:
 
-    * `/reports`
-    * `/screenshots`
+Stored in:
+
+* `/reports`
+* `/screenshots`
 
 ---
 
 ## 📈 Evaluation Coverage
-
-This framework satisfies all evaluation criteria:
 
 * Architecture Design ✔
 * Framework Implementation ✔
@@ -152,11 +226,8 @@ This framework satisfies all evaluation criteria:
 
 ## 👤 Authors
 
-**Roshitha Kurma**
-Automation Test Engineer
-
-**Alekhya Kaki**
-Automation Test Engineer
+* **Roshitha Kurma** – Test Case Design, Execution, Validation & Reporting
+* **Alekhya Kaki** – Framework Development, POM Design, Driver Setup
 
 ---
 
