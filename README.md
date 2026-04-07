@@ -44,7 +44,6 @@ IPL-Automation-Framework/
 │   ├── test/java/
 │   │   ├── tests/
 │
-│── testng.xml
 │── testng-chrome.xml
 │── testng-edge.xml
 │── pom.xml
@@ -117,7 +116,7 @@ IPL-Automation-Framework/
 
 ## 🔄 Execution Flow
 
-1. Test execution starts from **TestNG test classes** using `testng.xml`
+1. Test execution starts from **TestNG test classes** using `testng-chrome.xml`
 2. Test classes interact with **Page Object Model (POM) classes**
 3. Page classes contain locators and reusable actions
 4. Base class initializes WebDriver and manages browser setup
@@ -163,22 +162,6 @@ IPL-Automation-Framework/
 
 ---
 
-## ▶️ Execution Steps
-
-### Run using Maven
-
-```
-mvn clean install
-```
-
-### Run using TestNG
-
-```
-mvn test -DsuiteXmlFile=testng-chrome.xml
-mvn test -DsuiteXmlFile=testng-edge.xml
-```
-
----
 
 ## 🌐 Cross Browser Support
 
@@ -194,7 +177,7 @@ mvn test -DsuiteXmlFile=testng-edge.xml
 
 Stored in:
 
-* `/reports`
+* `surefire-reports`
 * `/screenshots`
 
 ---
@@ -226,8 +209,8 @@ Stored in:
 
 ## 👤 Authors
 
-* **Roshitha Kurma** – Test Case Design, Execution, Validation & Reporting
-* **Alekhya Kaki** – Framework Development, POM Design, Driver Setup
+* **Roshitha Kurma** –POM Design, Test Case 3 and 4 Design, Driver Setup and Validation
+* **Alekhya Kaki** – Framework Development, Test Case 3 and 4 Design, Execution, Validation & Reporting
 
 ---
 
