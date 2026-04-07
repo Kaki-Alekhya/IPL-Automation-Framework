@@ -34,23 +34,33 @@ This framework is built using **industry best practices** and follows the **Page
 
 ## 📂 Project Structure
 
-```
 IPL-Automation-Framework/
-│── src/
-│   ├── main/java/
-│   │   ├── base/
-│   │   ├── pages/
-│   │   ├── utils/
-│   ├── test/java/
-│   │   ├── tests/
-│
-│── testng-chrome.xml
-│── testng-edge.xml
-│── pom.xml
-│── README.md
-│── reports/
-│── screenshots/
-```
+├── src/
+│   ├── main/java/                                 
+│   │   ├── pages/                  # Page Object Model (POM) Classes
+│   │   │   ├── HomePage.java
+│   │   │   ├── NewsPage.java
+│   │   │   ├── StatsPage.java
+│   │   │   └── TeamsPage.java
+│   │   └── utils/                  # Helper & Utility Classes
+│   │       ├── DriverFactory.java
+│   │       ├── ScreenshotUtils.java
+│   │       └── TeamData.java
+│   └── test/java/                  # Test Suite Execution
+│       ├── base/                  
+│       │   ├── BaseTest.java   
+│       ├── tests/                  # TestNG Test Classes
+│       │   ├── FooterLinksTest.java
+│       │   ├── NewsSearchTest.java
+│       │   ├── PointsTableTest.java
+│       │   └── TeamDetailsTest.java
+│       └── utils/                  # Test Listeners
+│           └── TestListener.java
+├── screenshots/                    # Failure Screenshots (Auto-generated)
+├── target/                         # Compiled classes & Surefire Reports
+├── testng-chrome.xml               # Chrome Suite Configuration
+├── testng-edge.xml                 # Edge Suite Configuration
+└── pom.xml                         # Maven Dependencies (Selenium, TestNG)           
 
 ---
 
