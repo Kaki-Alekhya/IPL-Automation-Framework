@@ -33,7 +33,7 @@ This framework is built using **industry best practices** and follows the **Page
 ---
 
 ## 📂 Project Structure
-
+```
 IPL-Automation-Framework/
 ├── src/
 │   ├── main/java/                                 
@@ -62,6 +62,7 @@ IPL-Automation-Framework/
 ├── testng-edge.xml                 # Edge Suite Configuration
 └── pom.xml                         # Maven Dependencies (Selenium, TestNG)           
 
+```
 ---
 
 ## 📊 Framework Architecture
