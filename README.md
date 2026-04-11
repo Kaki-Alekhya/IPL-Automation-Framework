@@ -80,7 +80,7 @@ IPL-Automation-Framework/
 
 ## ⚙️ Tech Stack
 
-* **Java (JDK 17+)**
+* **Java (JDK 24)**
 * **Selenium WebDriver (v4)**
 * **TestNG**
 * **Maven**
