@@ -220,8 +220,8 @@ Stored in:
 
 ## 👤 Authors
 
-* **Roshitha Kurma** –POM Design, Test Case 3 and 4 Design, Driver Setup and Validation
-* **Alekhya Kaki** – Framework Development, Test Case 3 and 4 Design, Execution, Validation & Reporting
+* **Roshitha Kurma** 
+* **Alekhya Kaki** 
 
 ---
 
