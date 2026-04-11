@@ -12,9 +12,7 @@ public class NewsPage {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
-    public void goToNews(){
-        driver.get("https://www.iplt20.com/news");
-    }
+
     public void search(String text){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(
@@ -30,9 +28,9 @@ public class NewsPage {
                 By.xpath("//h2 | //h3")
         ));
     }
+    By newsTitles = By.id("more_search_res");
     public List<WebElement> getResults(){
-        return wait.until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(results)
-        );
+        wait.until(ExpectedConditions.visibilityOfElementLocated(newsTitles));
+        return driver.findElements(newsTitles);
     }
 }
