@@ -1,7 +1,7 @@
 # 🏏 IPL Automation Framework
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Java-17-orange"/>
+  <img src="https://img.shields.io/badge/Java-24-orange"/>
   <img src="https://img.shields.io/badge/Selenium-WebDriver-green"/>
   <img src="https://img.shields.io/badge/TestNG-Framework-blue"/>
   <img src="https://img.shields.io/badge/Maven-Build-red"/>
