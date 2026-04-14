@@ -1,5 +1,13 @@
 # 🏏 IPL Automation Framework
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-24-orange"/>
+  <img src="https://img.shields.io/badge/Selenium-WebDriver-green"/>
+  <img src="https://img.shields.io/badge/TestNG-Framework-blue"/>
+  <img src="https://img.shields.io/badge/Maven-Build-red"/>
+  <img src="https://img.shields.io/badge/Design-POM-yellow"/>
+</p>
+
 ---
 
 ## 📌 Project Overview
@@ -7,7 +15,11 @@
 The **IPL Automation Framework** is a UI Automation Testing framework developed to validate critical functionalities of the IPL official website:
 👉 https://www.iplt20.com/
 
-This framework is built using **industry best practices** and follows the **Page Object Model (POM)** design pattern to ensure scalability, reusability, and maintainability.
+This framework is built using **industry best practices** and follows the **Page Object Model (POM)** design pattern to ensure:
+
+* ✔ Scalability
+* ✔ Reusability
+* ✔ Maintainability
 
 ---
 
@@ -21,14 +33,23 @@ This framework is built using **industry best practices** and follows the **Page
 
 ---
 
-## 🛠️ Tech Stack
+## 🏗️ Framework Architecture
 
-* Java (JDK 17+)
-* Maven
-* Selenium WebDriver (v4)
-* TestNG
-* Page Object Model (POM)
-* Git
+```
+Test Layer (TestNG)
+        ↓
+Page Object Model (POM)
+        ↓
+Base Class (Driver Setup)
+        ↓
+Utility Classes (Waits, Screenshots, Actions)
+        ↓
+Selenium WebDriver
+        ↓
+Browser (Chrome / Edge)
+        ↓
+Reporting Layer (Reports + Screenshots)
+```
 
 ---
 
@@ -42,7 +63,9 @@ IPL-Automation-Framework/
 │   │   ├── pages/
 │   │   ├── utils/
 │   ├── test/java/
+│   │   ├── base/
 │   │   ├── tests/
+│   │   ├── utils/
 │
 │── testng.xml
 │── testng-chrome.xml
@@ -55,123 +78,74 @@ IPL-Automation-Framework/
 
 ---
 
-## 📊 Framework Architecture
+## ⚙️ Tech Stack
 
-```
-                +---------------------------+
-                |   Test Layer (TestNG)     |
-                | - Test Classes            |
-                | - TestNG XML              |
-                +------------+--------------+
-                             |
-                             v
-                +---------------------------+
-                |   Page Object Model (POM) |
-                | - HomePage                |
-                | - TeamsPage               |
-                | - StatsPage               |
-                | - NewsPage                |
-                +------------+--------------+
-                             |
-                             v
-                +---------------------------+
-                |   Base Class              |
-                | - Driver Initialization   |
-                | - Browser Setup           |
-                +------------+--------------+
-                             |
-        +--------------------+--------------------+
-        |                                         |
-        v                                         v
-+------------------------+          +-----------------------------+
-|   Utility Classes      |          |   Test Data / Config        |
-| - Wait Utilities       |          | - Test Data                 |
-| - Common Actions       |          | - Config Properties         |
-| - Screenshot Capture   |          +-----------------------------+
-+-----------+------------+
-            |
-            v
-        +-----------------------------+
-        |   Selenium WebDriver        |
-        +-------------+---------------+
-                      |
-                      v
-        +-----------------------------+
-        |   Browser (Chrome / Edge)   |
-        +-------------+---------------+
-                      |
-                      v
-        +-----------------------------+
-        |   Reporting Layer           |
-        | - TestNG Reports            |
-        | - Screenshots on Failure    |
-        +-------------+---------------+
-                      |
-          +-----------+-----------+
-          |                       |
-          v                       v
-   Reports Folder         Screenshots Folder
-```
+* **Java (JDK 24)**
+* **Selenium WebDriver (v4)**
+* **TestNG**
+* **Maven**
+* **Page Object Model (POM)**
+* **Git**
 
 ---
 
 ## 🔄 Execution Flow
 
-1. Test execution starts from **TestNG test classes** using `testng.xml`
-2. Test classes interact with **Page Object Model (POM) classes**
-3. Page classes contain locators and reusable actions
-4. Base class initializes WebDriver and manages browser setup
-5. Utility classes provide reusable methods like waits, actions, and screenshots
-6. Selenium WebDriver interacts with browser (Chrome/Edge)
-7. Test data and configurations are used during execution
-8. Reports and screenshots are generated after execution
+1. Test execution starts from `testng.xml`
+2. TestNG triggers test classes
+3. Test classes call Page Object methods
+4. Page classes interact with WebDriver
+5. Base class initializes browser
+6. Utility classes handle waits and screenshots
+7. Browser performs actions
+8. Reports and screenshots are generated
 
 ---
 
 ## ⚙️ Framework Features
 
-* Page Object Model (POM) implementation
-* Reusable utility classes
-* Dynamic waits using WebDriverWait
-* Clean and maintainable code
-* TestNG XML-based execution
-* Screenshot capture for failed tests
-* Cross-browser execution (Chrome & Edge)
+* ✔ Page Object Model (POM) implementation
+* ✔ Reusable utility classes
+* ✔ Dynamic waits using WebDriverWait
+* ✔ Clean and maintainable code
+* ✔ TestNG XML-based execution
+* ✔ Screenshot capture for failed tests
+* ✔ Cross-browser execution (Chrome & Edge)
 
 ---
 
 ## 🧪 Test Scenarios
 
-### 1. Footer Links Verification
+### ✅ 1. Footer Links Verification
 
 * Validate footer sections (TEAM, ABOUT, GUIDELINES, CONTACT)
 
-### 2. Team Details Verification
+### ✅ 2. Team Details Verification
 
 * Verify team logos
 * Validate trophy-winning years on hover
 
-### 3. Points Table Validation
+### ✅ 3. Points Table Validation
 
 * Validate Rank 1 team
 * Verify matches and points
 
-### 4. News Search Functionality
+### ✅ 4. News Search Functionality
 
-* Search: "Auction 2026"
+* Search: **"Auction 2026"**
 * Validate relevant articles
 
 ---
 
 ## ▶️ Execution Steps
 
-### Run using Maven
+### 🔹 Run using Maven
 
 ```
 mvn clean install
 ```
 
-### Run using TestNG
+### 🔹 Run using TestNG
 
 ```
 mvn test -DsuiteXmlFile=testng-chrome.xml
@@ -182,34 +156,35 @@ mvn test -DsuiteXmlFile=testng-edge.xml
 
 ## 🌐 Cross Browser Support
 
-* Google Chrome
-* Microsoft Edge
+* 🌐 Google Chrome
+* 🌐 Microsoft Edge
 
 ---
 
 ## 📊 Reporting & Screenshots
 
-* Execution reports generated after test run
-* Screenshots captured automatically for failed tests
+* TestNG reports are generated after execution
+* Reports are stored in `/reports` folder
+* Screenshots are captured automatically for failed tests
 
-Stored in:
+📁 Example:
 
-* `/reports`
-* `/screenshots`
+* `/reports/test-output/index.html`
+* `/screenshots/`
 
 ---
 
 ## 📈 Evaluation Coverage
 
-* Architecture Design ✔
-* Framework Implementation ✔
-* UI Automation Coverage ✔
-* Code Quality ✔
-* Data Driven Testing ✔
-* Logging & Reporting ✔
-* Cross Browser Support ✔
-* Git Usage ✔
-* Documentation ✔
+* ✔ Architecture Design
+* ✔ Framework Implementation
+* ✔ UI Automation Coverage
+* ✔ Code Quality
+* ✔ Data Driven Testing
+* ✔ Logging & Reporting
+* ✔ Cross Browser Support
+* ✔ Git Usage
+* ✔ Documentation
 
 ---
 
@@ -217,14 +192,12 @@ Stored in:
 
 * README documentation
 * Architecture diagram
-* Execution reports[testng-chrome.xml](testng-chrome.xml)
+* Execution reports (stored in `/reports`)
 * Git repository link
 * Screenshots for failed tests
-* Contribution details
+* Roles and responsibilities document
 
 ---
-
-
 
 ## 👤 Authors & Roles
 
@@ -235,13 +208,26 @@ Stored in:
 
 ## 🚀 Future Enhancements
 
-* CI/CD integration (Jenkins)
-* Allure Reporting
-* Parallel execution
-* Docker support
+* 🔹 Jenkins CI/CD integration
+* 🔹 Allure Reporting
+* 🔹 Parallel execution
+* 🔹 Docker support
 
 ---
 
 ## ⭐ Conclusion
 
-This project demonstrates a complete **UI Automation Framework design**, not just test scripts, following industry standards and best practices.
+This project demonstrates a complete **UI Automation Framework design**, not just test scripts, following **industry standards and best practices**.
+
+It showcases strong expertise in:
+
+* Selenium WebDriver
+* TestNG
+* Page Object Model
+* Automation Framework Design
+
+---
+
+## 💡 Author Note
+
+This project reflects a strong foundation in **QA Automation Engineering** and demonstrates the ability to design scalable and maintainable test frameworks suitable for real-world applications.
